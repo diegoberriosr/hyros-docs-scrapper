@@ -1,11 +1,9 @@
-from scrapper import Scrapper
-from transformer import Transformer
-from analyzer import Analyzer
+from scrapping_assistant import ScrappingAssistant
+from articles import ARTICLE_LIST
 
-scrapper = Scrapper()
-analyzer = Analyzer()
+def main():
+  ScrappingAssistant().getArticles(ARTICLE_LIST)
 
-article = scrapper.scrape('https://docs.hyros.com/tracking-hubspot-sales/')
-processed_article = analyzer.process(article)
 
-Transformer.convert_to_pdf(processed_article, 'hubspot')
+if __name__ == "__main__":
+  main()
