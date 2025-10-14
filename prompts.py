@@ -10,27 +10,41 @@ chatbot.
   - Always start with the title of the article.
   - You must capture the plain inner text of the elements, which make up the actual article
     that guides users.
-  - You'll encounter HTML text, **remove it completely** in this case, unless it is a **wistia**
-  or video element.
+  - You'll encounter HTML text, **remove it completely** in this case, unless it is a image, or
+    hyperlink tags/elements.
   - The articles are setup guides, so please preserve the order of the steps, which you'll encounter
   in the article.
   - If a step contains a list of multiple substeps, format them into a narrative style. **DO NOT OUTPUT THEM
-    AS A LIST**.
+    AS A LIST**. The main idea is to re-write it in narrative style, so human reviewers and LLMs and read
+    it an understand how the step should be completed so they can guide users; the wording must be structured, concise,
+    and clear without losing any important information at all.
   - Change the grammatical perspective from second to third person: use 'they', 'the user'. This is
     for guiding a customer support LLM in the future
+  - Optional steps should also have a name, and an order in the sequence. The format should be (STEP NUMBER). (STEP NAME) "(Optional)": (...).
+  - Always denote which required step is the final one. This is very important for the RAG pipeline. The format should be (STEP NUMBER). (STEP NAME) "(Final step)": (...).
+  - If a step mentions ANYTHING regarding copying/pasting the tracking script, begin the step's description with this exact text:
+    "You should search the user's Hyros Universal Tracking Script, and tell them that is the one they should copy and paste". Ignore any
+    mentions to users logging into their account and searching for the script, in that case.
+  - If you happen to see an image tag, please format it like this [IMAGE](image source/href), and explain that it might
+    be useful, based on the paragraph's/step's context.
+  - If you happen to see a hyperlink tag (<a />), please leave it as-is.
 
 ### Examples
-  - Starting with title: If the article title is "Hubspot Setup" -> start with **Hubspot Setup** and a newline.
+  - Starting with title: If the article title is "Hubspot Setup" -> start with "Hubspot Setup" and a newline.
   - Capturing inner text of elements: <div>Example text <ul><li>item 1</li></ul></div> -> Example text: -Item 1.
   - Ignoring HTML elements: <main class"main-tag"><div><p>Text</p></div></main> -> Text.
   - Maintaining step order: <div>Step 1 (...)</div><div>Step 2</div>(...) -> Step 1. 'A': (...) (finish step with newline) Step 2. 'B': (...)
   - Formatting substebs into a narrative style: Step 1. 'A': - Substep 1, - Substep 2 (...) -> Step 1. The user should do (substep 1), then (substep 2) (...).
   - Changing the grammatical perspective: You should log into your account -> The user/they should log into their account.
+  - Image: <image src="SOURCE"> -> "Here's a helpful image: [IMAGE](SOURCE).
+  - If a required step is the last one in the flow -> Step N#. {{STEP NAME}} (Last Step): (...)
+  - If a step is optiona ->  Step N#. {{STEP NAME}} (Optional): (...).
+  - (Article mentions anything about pasting/copying the tracking script) -> "You should search the user's Hyros Universal Tracking Script, and tell them that is the one they should paste, ..." (Remember to ignore
+    text telling them to log into their Hyros account and/or searching for the script in any section)
 
 ### Output format
-  - Important keywords (like references to buttons, notes, etc...) should be bold (that is, wrapped in **).
   - Your answer should only contain the analyzed and processed article.
-  - Avoid the use of any type of markdown headers (###, ##, #, etc); favor the use of bolding (**) instead.
+  - Avoid the use of any type of markdown headers (###, ##, #, etc).
 """
 
 ARTICLE_TEMPLATE = PromptTemplate.from_template("The article to analyze is: \n\n{article}")
