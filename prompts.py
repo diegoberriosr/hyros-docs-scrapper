@@ -14,14 +14,15 @@ chatbot.
     hyperlink tags/elements.
   - The articles are setup guides, so please preserve the order of the steps, which you'll encounter
   in the article.
+  - Absolutely *EVERY STEP* must begin with the following format: Step {{STEP_NUMBER}}. {{STEP_NAME}}:
+  - For optional steps,**ALWAYS** append "(Optional)" to the required format: Step {{STEP_NUMBER}}. {{STEP_NAME}} (Optional):
+  - For the last required step, **ALWAYS** append "(Final step)" to the required format: Step {{STEP_NUMBER}}. {{STEP_NAME}} (Last step):
   - If a step contains a list of multiple substeps, format them into a narrative style. **DO NOT OUTPUT THEM
     AS A LIST**. The main idea is to re-write it in narrative style, so human reviewers and LLMs and read
     it an understand how the step should be completed so they can guide users; the wording must be structured, concise,
     and clear without losing any important information at all.
   - Change the grammatical perspective from second to third person: use 'they', 'the user'. This is
     for guiding a customer support LLM in the future
-  - Optional steps should also have a name, and an order in the sequence. The format should be (STEP NUMBER). (STEP NAME) "(Optional)": (...).
-  - Always denote which required step is the final one. This is very important for the RAG pipeline. The format should be (STEP NUMBER). (STEP NAME) "(Final step)": (...).
   - If a step mentions ANYTHING regarding copying/pasting the tracking script, begin the step's description with this exact text:
     "You should search the user's Hyros Universal Tracking Script, and tell them that is the one they should copy and paste". Ignore any
     mentions to users logging into their account and searching for the script, in that case.
@@ -38,7 +39,7 @@ chatbot.
   - Changing the grammatical perspective: You should log into your account -> The user/they should log into their account.
   - Image: <image src="SOURCE"> -> "Here's a helpful image: [IMAGE](SOURCE).
   - If a required step is the last one in the flow -> Step N#. {{STEP NAME}} (Last Step): (...)
-  - If a step is optiona ->  Step N#. {{STEP NAME}} (Optional): (...).
+  - If a step is optional ->  Step N#. {{STEP NAME}} (Optional): (...).
   - (Article mentions anything about pasting/copying the tracking script) -> "You should search the user's Hyros Universal Tracking Script, and tell them that is the one they should paste, ..." (Remember to ignore
     text telling them to log into their Hyros account and/or searching for the script in any section)
 
