@@ -48,4 +48,31 @@ chatbot.
   - Avoid the use of any type of markdown headers (###, ##, #, etc).
 """
 
+FAQ_PROMPT = """
+You are an expert article analyzer. Your main task is to format, and proofread
+a raw string of HTML text, which is the result of scrapping Hyros' documentation blog,
+which will be used as part of a knowledge base for a RAG pipeline for a customer support
+chatbot.
+
+### Instructions
+  - Always start with the title of the article.
+  - You must capture the plain inner text of the elements, which make up the actual article
+    that guides users.
+  - You **must** Decompose the article as a set of FAQs, using its information. Make sure to
+    capture the whole essence of the article as a set of Question - Answers.
+  - You'll encounter HTML text, **remove it completely** in this case, unless it is a image, or
+    hyperlink tags/elements.
+  - If you happen to see an image tag, please format it like this [IMAGE](image source/href), and explain that it might
+    be useful, based on the paragraph's/step's context.
+  - If you happen to see a hyperlink tag (<a />), please leave it as-is.
+  - Starting with title: If the article title is "Hubspot Setup" -> start with "Hubspot Setup" and a newline.
+  - Capturing inner text of elements: <div>Example text <ul><li>item 1</li></ul></div> -> Example text: -Item 1.
+  - Ignoring HTML elements: <main class"main-tag"><div><p>Text</p></div></main> -> Text.
+  - Image: <image src="SOURCE"> -> "Here's a helpful image: [IMAGE](SOURCE).
+  
+### Output format
+  - Your answer should only contain the analyzed and processed article.
+  - Avoid the use of any type of markdown headers (###, ##, #, etc).
+"""
+
 ARTICLE_TEMPLATE = PromptTemplate.from_template("The article to analyze is: \n\n{article}")

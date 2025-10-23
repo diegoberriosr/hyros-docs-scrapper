@@ -25,16 +25,19 @@ class ScrappingAssistant():
       print(f"Processing articles... ({progress}%)")
       print(f"Current article: {article_name}")
 
-      url = articles[article_name]
-      self.getArticle(url, article_name) # use the key as the filename
+      article = articles[article_name]
+      self.getArticle(article, article_name) # use the key as the filename
       counter += 1
 
       os.system('clear || cls')
 
     print("Done!")
 
-  def getArticle(self, url: str, output_filename: str):
+  def getArticle(self, article, output_filename: str):
+    url = article['url']
+    is_flow = article['is_flow']
+
     page_source = self.scrapper.scrape(url)
-    processed_text = self.analyzer.process(page_source)
+    processed_text = self.analyzer.process(page_source, is_flow)
 
     self.transformer.convert_to_pdf(processed_text, output_filename)
